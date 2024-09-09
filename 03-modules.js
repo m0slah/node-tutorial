@@ -7,8 +7,8 @@ const sayHi = require("./05.utils");
 
 const data = require("./06-alternative-flavor");
 
-console.log(data);
+require("./07-mind-grenade");
 
-sayHi("suzan");
-sayHi(names.john);
-sayHi(names.peter);
+// sayHi("suzan");
+// sayHi(names.john);
+// sayHi(names.peter);
