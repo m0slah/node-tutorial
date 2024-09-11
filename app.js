@@ -1,25 +1,30 @@
-const http = require("http");
+const { readFile } = require("fs");
 
-const server = http.createServer((req, res) => {
-  if (req.url === "/") {
-    res.end("You're in home page");
-    return;
-  }
-
-  if (req.url === "/about") {
-    //Blocking code
-    for (let i = 0; i < 100; i++) {
-      for (let j = 0; j < 100; j++) {
-        console.log(`${i} ${j}`);
+const getText = (path) => {
+  return new Promise((resolve, reject) => {
+    readFile(path, "utf8", (err, contents) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(contents);
       }
-    }
-    res.end("You're in about page");
-    return;
+    });
+  });
+};
+
+const first = async () => {
+  try {
+    const first = await getText("./content/first.txt");
+    const second = await getText("./content/second.txt");
+    console.log(first);
+    console.log(second);
+  } catch (error) {
+    console.log(error);
   }
+};
 
-  res.end("Error page");
-});
+first();
 
-server.listen(3000, () => {
-  console.log("Server running on port 6000");
-});
+// getText("./content/first.txt")
+//   .then((result) => console.log(result))
+//   .catch((err) => console.log(err));
