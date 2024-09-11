@@ -1,21 +1,16 @@
-const { readFile } = require("fs");
-
-const getText = (path) => {
-  return new Promise((resolve, reject) => {
-    readFile(path, "utf8", (err, contents) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(contents);
-      }
-    });
-  });
-};
+const { readFile, writeFile } = require("fs").promises;
+const util = require("util");
+const readFilePromise = util.promisify(readFile);
+const writeFilePromise = util.promisify(writeFile);
 
 const first = async () => {
   try {
-    const first = await getText("./content/first.txt");
-    const second = await getText("./content/second.txt");
+    const first = await readFile("./content/first.txt", "utf8");
+    const second = await readFile("./content/second.txt", "utf8");
+    await writeFile(
+      "./content/result-mind-grenade.txt",
+      `THiS IS AWESOMES ${first} && ${second}`
+    );
     console.log(first);
     console.log(second);
   } catch (error) {
@@ -24,6 +19,18 @@ const first = async () => {
 };
 
 first();
+
+// const getText = (path) => {
+//   return new Promise((resolve, reject) => {
+//     readFile(path, "utf8", (err, contents) => {
+//       if (err) {
+//         reject(err);
+//       } else {
+//         resolve(contents);
+//       }
+//     });
+//   });
+// };
 
 // getText("./content/first.txt")
 //   .then((result) => console.log(result))
